@@ -283,7 +283,10 @@ def read_t(frame,path='./',file_prefix='fort'):
         num_eqn = read_data_line(f, data_type=int)
         nstates = read_data_line(f, data_type=int)
         num_aux = read_data_line(f, data_type=int)
-        num_dim = read_data_line(f, data_type=int)
+        try:
+            num_dim = read_data_line(f, data_type=int)
+        except:
+            num_dim = 2  # for mfluid
         try:
             num_ghost = read_data_line(f, data_type=int)
         except:
@@ -378,7 +381,7 @@ def read_array(f, state, num_var):
                         l = l + line.split()
                     for m in range(num_var):
                         q[m,i,j] = float(l[m])
-                blank = f.readline()
+                #blank = f.readline()  # for mfluid
         elif patch.num_dim == 3:
             for k in range(patch.dimensions[2].num_cells):
                 for j in range(patch.dimensions[1].num_cells):
